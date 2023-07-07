@@ -335,13 +335,13 @@ class ChatState extends State<Chat> {
 
   /// Keep track of all the auto scroll indices by their respective message's id to allow animating to them.
   final Map<String, int> _autoScrollIndexById = {};
-  late final AutoScrollController _scrollController;
+  late final AutoScrollController lateScrollController;
 
   @override
   void initState() {
     super.initState();
 
-    _scrollController = widget.scrollController ?? AutoScrollController();
+    lateScrollController = widget.scrollController ?? AutoScrollController();
 
     didUpdateWidget(widget);
   }
@@ -350,7 +350,7 @@ class ChatState extends State<Chat> {
   void scrollToUnreadHeader() {
     final unreadHeaderIndex = _autoScrollIndexById[_unreadHeaderId];
     if (unreadHeaderIndex != null) {
-      _scrollController.scrollToIndex(
+      lateScrollController.scrollToIndex(
         unreadHeaderIndex,
         duration: widget.scrollToUnreadOptions.scrollDuration,
       );
@@ -359,7 +359,7 @@ class ChatState extends State<Chat> {
 
   /// Scroll to the message with the specified [id].
   void scrollToMessage(String id, {Duration? duration}) =>
-      _scrollController.scrollToIndex(
+      lateScrollController.scrollToIndex(
         _autoScrollIndexById[id]!,
         duration: duration ?? scrollAnimationDuration,
       );
@@ -415,7 +415,7 @@ class ChatState extends State<Chat> {
       );
     } else if (object is UnreadHeaderData) {
       return AutoScrollTag(
-        controller: _scrollController,
+        controller: lateScrollController,
         index: index ?? -1,
         key: const Key('unread_header'),
         child: UnreadHeader(
@@ -482,7 +482,7 @@ class ChatState extends State<Chat> {
       }
 
       return AutoScrollTag(
-        controller: _scrollController,
+        controller: lateScrollController,
         index: index ?? -1,
         key: Key('scroll-${message.id}'),
         child: messageWidget,
@@ -560,7 +560,7 @@ class ChatState extends State<Chat> {
   @override
   void dispose() {
     _galleryPageController?.dispose();
-    _scrollController.dispose();
+    lateScrollController.dispose();
     super.dispose();
   }
 
@@ -609,7 +609,7 @@ class ChatState extends State<Chat> {
                                     onEndReached: widget.onEndReached,
                                     onEndReachedThreshold:
                                         widget.onEndReachedThreshold,
-                                    scrollController: _scrollController,
+                                    scrollController: lateScrollController,
                                     scrollPhysics: widget.scrollPhysics,
                                     typingIndicatorOptions:
                                         widget.typingIndicatorOptions,
