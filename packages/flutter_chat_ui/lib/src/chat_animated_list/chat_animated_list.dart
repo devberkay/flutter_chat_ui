@@ -445,6 +445,7 @@ class _ChatAnimatedListState extends State<ChatAnimatedList>
                   if (_sliverListViewContext != null) _sliverListViewContext!,
                 ],
             child: CustomScrollView(
+              hitTestBehavior: HitTestBehavior.opaque,
               controller: _scrollController,
               reverse: widget.reversed,
               keyboardDismissBehavior:
